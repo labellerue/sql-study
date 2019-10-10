@@ -11,7 +11,7 @@ Group by GROUPING SETS(year||month||day, cust_no);
 
 /* ROLLUP() */
 --그릅핑된 컬럼의 소계를 생성하기 위해 사용. 그룹핑된 컬럼의 수가 N이면 소계는 N+1 레벨이 생성. 단순 소계
---앞의 것에 대해 뒤의 것의 모든 경우의 수만큼 + 앞의 집계 + 전체 집계
+--앞의 것에 대해 뒤의 것의 모든 경우의 수만큼 + 앞의 집계 + 전체 집계 >> 중간합계, 총합계
 Select
     year||month||day
     , cust_no
