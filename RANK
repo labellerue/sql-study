@@ -1,0 +1,48 @@
+/* ROW_NUMBER() */
+--겹치는 순위 없음
+Select
+    year, month, day
+    , ROW_NUMBER() OVER (order by year||month||day asc) as "순위"
+From TB_calendar
+Group by year, month, day;
+
+
+/* RANK() */
+--값이 같을 경우 같은 순위, 그 다음 순위는 앞 개수 + 1
+--1 1 1 4 5
+Select
+    year, month, day
+    , RANK() OVER (order by day asc) as "순위"
+From TB_calendar
+Group by year, month, day;
+
+
+/* DENSE_RANK() */
+--값이 같을 경우 같은 순위, 그 다음 순위는 바로 다음 수
+--1 1 1 2 3
+Select
+    year, month, day
+    , DENSE_RANK() OVER (order by day asc) as "순위"
+From TB_calendar
+Group by year, month, day;
+
+
+/* NTILE() */
+--원하는 수의 순위만큼 매기기.
+--전체를 4개 등수로 묶음.
+--1 1 1 2 2 2 3 3 3 4 4 4
+Select
+    year, month, day
+    NTILE(4) OVER (order by day) "4개 랭크"
+From TB_calendar;
+
+
+/* PARTITION BY */
+--특정 컬럼 기준으로 나누기
+Select
+    이름, 과목, 점수
+    , MAX(점수) OVER (PARTITION BY 이름) as 개인별최고점수
+    , SUM(점수) OVER (PARTITION BY 0) as 전체점수합계
+    , 과목 || '_' || ROW_NUMBER() OVER (PARTITION BY 과목 ORDER BY 점수 DESC) as 과목별등수
+    , 성별 || '_' || RANK() OVER (PARTITION BY 성별 ORDER BY 점수 DESC) as 성별등
+From TB_score;
