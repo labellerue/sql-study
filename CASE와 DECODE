@@ -1,0 +1,36 @@
+/* DECODE(컬럼, 값, 출력, else값 출력) */
+--함수 형태
+--조건값과 비교하기 때문에 등가연산만 가능
+Select
+    cust_no
+    , year, month, day
+    , DECODE(day, 1, '첫날',
+                  2, '둘째날',
+                  5, '5일',
+                  20, '20일'
+                  '-') as "날"
+From TB_customer
+Order by year, month, day;
+
+
+/* CASE WHEN THEN ELSE END */
+--statement 형태
+--조건문으로 비교해 비교연산이 가능
+--NULL 비교 연산 시 조건문 작성에 유의
+Select
+    year, month, day
+    , CASE
+          WHEN day between 2 and 5 THEN '2~5일 사이'
+          WHEN day > 5 and dahy <= 10 THEN '6~10일 사이'
+          WHEN day > 10 THEN '10일 이후'
+          ELSE day || '일'
+          END as "날"
+From TB_customer
+Order by year, month, day;
+
+Select
+    CASE
+        WHEN null is null THEN 'null값'
+        ELSE '값 있음'
+        END null_notnull
+From dual;
